@@ -2,7 +2,10 @@
 
 """
 This module is the starter file for the Wordle assignment.
-BE SURE TO UPDATE THIS COMMENT WHEN YOU WRITE THE CODE.
+Aaron Petersen
+Parker Smith
+Lauren Likes
+Parker Warner
 """
 
 import random
@@ -13,28 +16,32 @@ from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
 def wordle():
 
     randomWord = random.choice(FIVE_LETTER_WORDS).upper()
-    
 
     def enter_action(s):
-        #gw.show_message("You have to implement this method.")
         word = ""
-        for x in range(0, 5): 
-            word = word + gw.get_square_letter(N_ROWS-6, x)
+        for x in range(N_COLS): 
+            word += gw.get_square_letter(gw.get_current_row(), x)
 
         if word.lower() in FIVE_LETTER_WORDS:
             gw.show_message("Congrats!!! That is a word!")
+            temp = gw.get_current_row() + 1
+            gw.set_current_row(temp)
         else:
             gw.show_message("Not a word in list")
 
+        if word == randomWord:
+            gw.show_message("Congrats!!! You Win!!")
+
     gw = WordleGWindow()
-    y = 0
-    for x in randomWord:
-        gw.set_square_letter(N_ROWS-6, y ,randomWord[y])
-        y += 1
+    # y = 0
+    # for x in randomWord:
+    #     gw.set_square_letter(N_ROWS-6, y ,randomWord[y])
+    #     y += 1
+
+    gw.show_message(f"Word is: {randomWord}")
 
     gw.add_enter_listener(enter_action)
 
-# Startup code
 
 if __name__ == "__main__":
     wordle()
