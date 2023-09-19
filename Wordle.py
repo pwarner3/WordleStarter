@@ -13,24 +13,46 @@ import unittest
 from WordleDictionary import FIVE_LETTER_WORDS
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
 
+#Wordle function that runs the game
 def wordle():
 
+    #Selecting the random word
     randomWord = random.choice(FIVE_LETTER_WORDS).upper()
+    CORRECT_COLOR = "#66BB66" # A shade of green
+    PRESENT_COLOR = "#CCBB66" # A shade of brownish yellow
+    MISSING_COLOR = "#999999" # A shade of gray
 
     def enter_action(s):
         word = ""
         for x in range(N_COLS): 
             word += gw.get_square_letter(gw.get_current_row(), x)
 
+        #Validating if it is a word
         if word.lower() in FIVE_LETTER_WORDS:
-            gw.show_message("Congrats!!! That is a word!")
+            #gw.show_message("Congrats!!! That is a word!")
+            for x in range(N_COLS):
+                currentLetter = gw.get_square_letter(gw.get_current_row(), x)
+            
+                if currentLetter == randomWord[x]:
+                    gw.set_square_color(gw.get_current_row(), x,CORRECT_COLOR)
+                elif currentLetter in randomWord:
+                    gw.set_square_color(gw.get_current_row(), x, PRESENT_COLOR)
+                else: 
+                    gw.set_square_color(gw.get_current_row(), x, MISSING_COLOR)
             temp = gw.get_current_row() + 1
             gw.set_current_row(temp)
+
+            
+
         else:
-            gw.show_message("Not a word in list")
+            gw.show_message("Not a word, try again")
 
         if word == randomWord:
             gw.show_message("Congrats!!! You Win!!")
+
+
+
+        
 
     gw = WordleGWindow()
     # y = 0
