@@ -11,16 +11,13 @@ Parker Warner
 import random
 import unittest
 from WordleDictionary import FIVE_LETTER_WORDS
-from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
+from WordleGraphics import WordleGWindow, N_COLS, N_ROWS, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR
 
 #Wordle function that runs the game
 def wordle():
 
     #Selecting the random word
     randomWord = random.choice(FIVE_LETTER_WORDS).upper()
-    CORRECT_COLOR = "#66BB66" # A shade of green
-    PRESENT_COLOR = "#CCBB66" # A shade of brownish yellow
-    MISSING_COLOR = "#999999" # A shade of gray
 
     def enter_action(s):
         word = ""
