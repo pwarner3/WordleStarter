@@ -143,8 +143,18 @@ class WordleGWindow:
         
         def enable_hard_mode():
             self._hard_mode = True
+            self._btn = tkinter.Button(root, text = 'Disable Hard Mode', bd = '30',
+                            background="Red", activebackground="LightGray", activeforeground="White", border=0, font=KEY_FONT,
+                            cursor="hand2", width=20,
+                            command = disable_hard_mode).place(x=5, y=5)
             self._message.set_text("Hard Mode Enabled","Red")
 
+        def disable_hard_mode():
+            self._btn = tkinter.Button(root, text = 'Enable Hard Mode', bd = '30',
+                            background="LightGray", activebackground="Red", activeforeground="White", border=0, font=KEY_FONT,
+                            cursor="hand2", width=20,
+                            command = enable_hard_mode).place(x=5, y=5)
+            self._message.set_text("")
         def delete_window():
             """Closes the window and exits from the event loop."""
             root.destroy()
@@ -165,8 +175,8 @@ class WordleGWindow:
         canvas.pack()
         # Create a Hard Mode Button
         btn = tkinter.Button(root, text = 'Enable Hard Mode', bd = '30',
-                            background="LightGray", activebackground="Red", activeforeground="White", border=0,
-                            cursor="hand2",
+                            background="LightGray", activebackground="Red", activeforeground="White", border=0, font=KEY_FONT,
+                            cursor="hand2", width=20,
                             command = enable_hard_mode)
         btn.place(x=5, y=5)
         self._canvas = canvas
