@@ -22,11 +22,11 @@ UNKNOWN_COLOR = "#FFFFFF"       # Undetermined letters are white
 KEY_COLOR = "#DDDDDD"           # Keys are colored light gray
 
 CANVAS_WIDTH = 500		# Width of the tkinter canvas (pixels)
-CANVAS_HEIGHT = 700		# Height of the tkinter canvas (pixels)
+CANVAS_HEIGHT = 750		# Height of the tkinter canvas (pixels)
 
 SQUARE_SIZE = 60		# Size of each square (pixels)
 SQUARE_SEP = 5                  # Separation between squares (pixels)
-TOP_MARGIN = 30    		# Top margin (pixels)
+TOP_MARGIN = 50    		# Top margin (pixels)
 BOTTOM_MARGIN = 30    		# Bottom margin (pixels)
 MESSAGE_SEP = 20                # Space between board and message center
 
@@ -140,6 +140,10 @@ class WordleGWindow:
                 if x >= kx and x <= kx + kw and y >= ky and y <= ky + kh:
                     return key
             return None
+        
+        def enable_hard_mode():
+            self._hard_mode = True
+            self._message.set_text("Hard Mode Enabled","Red")
 
         def delete_window():
             """Closes the window and exits from the event loop."""
@@ -159,7 +163,14 @@ class WordleGWindow:
                                 height=CANVAS_HEIGHT,
                                 highlightthickness=0)
         canvas.pack()
+        # Create a Hard Mode Button
+        btn = tkinter.Button(root, text = 'Enable Hard Mode', bd = '30',
+                            background="LightGray", activebackground="Red", activeforeground="White", border=0,
+                            cursor="hand2",
+                            command = enable_hard_mode)
+        btn.place(x=5, y=5)
         self._canvas = canvas
+        self._btn = btn
         self._grid = create_grid()
         self._message = create_message()
         self._keys = create_keyboard()
@@ -169,6 +180,7 @@ class WordleGWindow:
         root.bind("<ButtonRelease-1>", release_action)
         self._row = 0
         self._col = 0
+        self._hard_mode = False
         atexit.register(start_event_loop)
 
     def get_square_letter(self, row, col):
@@ -204,6 +216,9 @@ class WordleGWindow:
 
     def show_message(self, msg, color="Black"):
         self._message.set_text(msg, color)
+
+    def hard_mode_status(self):
+        return self._hard_mode
 
 
 class WordleSquare:
