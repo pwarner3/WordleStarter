@@ -150,6 +150,7 @@ class WordleGWindow:
             self._message.set_text("Hard Mode Enabled","Red")
 
         def disable_hard_mode():
+            self._hard_mode = False
             self._btn = tkinter.Button(root, text = 'Enable Hard Mode', bd = '30',
                             background="LightGray", activebackground="Red", activeforeground="White", border=0, font=KEY_FONT,
                             cursor="hand2", width=20,

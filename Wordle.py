@@ -18,38 +18,75 @@ def wordle():
 
     #Selecting the random word
     randomWord = random.choice(FIVE_LETTER_WORDS).upper()
+    hardWord = []
+    for x in randomWord:
+        hardWord.append("")
 
     def enter_action(s):
-        word = ""
-        for x in range(N_COLS): 
-            word += gw.get_square_letter(gw.get_current_row(), x)
+        if gw.hard_mode_status() == False: # Regular Mode
+            word = ""
+            for x in range(N_COLS): 
+                word += gw.get_square_letter(gw.get_current_row(), x)
 
-        #Validating if it is a word
-        if word.lower() in FIVE_LETTER_WORDS:
-            #gw.show_message("Congrats!!! That is a word!")
+            #Validating if it is a word
+            if word.lower() in FIVE_LETTER_WORDS:
+                #gw.show_message("Congrats!!! That is a word!")
+                for x in range(N_COLS):
+                    currentLetter = gw.get_square_letter(gw.get_current_row(), x)
+                
+                    if currentLetter == randomWord[x]:
+                        gw.set_square_color(gw.get_current_row(), x,CORRECT_COLOR)
+                    elif currentLetter in randomWord:
+                        gw.set_square_color(gw.get_current_row(), x, PRESENT_COLOR)
+                    else: 
+                        gw.set_square_color(gw.get_current_row(), x, MISSING_COLOR)
+                temp = gw.get_current_row() + 1
+                gw.set_current_row(temp)
+
+            else:
+                gw.show_message("Not a word, try again")
+
+            if word == randomWord:
+                gw.show_message("Congrats!!! You Win!!")
+            
+        else: # Hard Mode
+            word = ""
             for x in range(N_COLS):
-                currentLetter = gw.get_square_letter(gw.get_current_row(), x)
-            
-                if currentLetter == randomWord[x]:
-                    gw.set_square_color(gw.get_current_row(), x,CORRECT_COLOR)
-                elif currentLetter in randomWord:
-                    gw.set_square_color(gw.get_current_row(), x, PRESENT_COLOR)
-                else: 
-                    gw.set_square_color(gw.get_current_row(), x, MISSING_COLOR)
-            temp = gw.get_current_row() + 1
-            gw.set_current_row(temp)
+                word += gw.get_square_letter(gw.get_current_row(), x)
+                if hardWord[x] != "":
+                    if word[x] != hardWord[x]:
+                        # word[x] = hardWord[x]
+                        gw.show_message("Must use found correct letters","Red")
+                        return
 
-            
+            #Validating if it is a word
+            if word.lower() in FIVE_LETTER_WORDS:
 
-        else:
-            gw.show_message("Not a word, try again")
+                for x in range(N_COLS):
+                    currentLetter = gw.get_square_letter(gw.get_current_row(), x)
+                
+                    if currentLetter == randomWord[x]:
+                        hardWord[x] = currentLetter
+                        gw.set_square_color(gw.get_current_row(), x,CORRECT_COLOR)
+                    elif currentLetter in randomWord:
+                        gw.set_square_color(gw.get_current_row(), x, PRESENT_COLOR)
+                    else: 
+                        gw.set_square_color(gw.get_current_row(), x, MISSING_COLOR)
+                temp = gw.get_current_row() + 1
+                gw.set_current_row(temp)
 
-        if word == randomWord:
-            gw.show_message("Congrats!!! You Win!!")
+                for x in range(N_COLS):
+                    if "".join(hardWord) == word:
+                        continue
+                    if hardWord[x] != "":
+                        gw.set_square_letter(gw.get_current_row(), x,hardWord[x])
+                        gw.set_square_color(gw.get_current_row(), x,CORRECT_COLOR)
 
+            else:
+                gw.show_message("Not a word, try again")
 
-
-        
+            if word == randomWord:
+                gw.show_message("Congrats!!! You Win!!")
 
     gw = WordleGWindow()
     # y = 0
