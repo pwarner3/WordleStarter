@@ -54,8 +54,7 @@ def wordle():
             for x in range(N_COLS):
                 word += gw.get_square_letter(gw.get_current_row(), x)
                 if hardWord[x] != "":
-                    if word[x] != hardWord[x]:
-                        # word[x] = hardWord[x]
+                    if word[x] != hardWord[x]: # Check that letter submitted matches letters found (issue)
                         gw.show_message("Must use found correct letters","Red")
                         return
 
