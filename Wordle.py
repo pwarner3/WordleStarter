@@ -11,7 +11,7 @@ Parker Warner
 import random
 import unittest
 from WordleDictionary import FIVE_LETTER_WORDS
-from WordleGraphics import WordleGWindow, N_COLS, N_ROWS, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR
+from WordleGraphics import WordleGWindow, N_COLS, N_ROWS, CORRECT_COLOR, PRESENT_COLOR, MISSING_COLOR, GameEndWindow
 
 #Wordle function that runs the game
 def wordle():
@@ -47,7 +47,19 @@ def wordle():
                 gw.show_message("Not a word, try again")
 
             if word == randomWord:
-                gw.show_message("Congrats!!! You Win!!")
+                #gw.show_message("Congrats!!! You Win!!")
+                
+                numTries = gw.get_current_row()
+                global pw
+                pw = GameEndWindow(numTries) 
+
+                pw.show_message("Congrats! It took you " + str(numTries) + " attempt(s)!\n \nScreenshot to share with friends")
+                
+                for x in range(0, numTries):
+                    for y in range(0, 5):
+                        color = gw.get_square_color(x, y)
+                        pw.set_square_color(x, y, color)
+
             
         else: # Hard Mode
             word = ""
@@ -86,8 +98,19 @@ def wordle():
 
             if word == randomWord:
                 gw.show_message("Congrats!!! You Win!!")
+                numTries = gw.get_current_row()
+                global mw
+                mw = GameEndWindow(numTries) 
+
+                mw.show_message("Congrats! It took you " + str(numTries) + " attempt(s)!\n \nShare your results with friends!!!")
+                
+                for x in range(0, numTries):
+                    for y in range(0, 5):
+                        color = gw.get_square_color(x, y)
+                        mw.set_square_color(x, y, color)
 
     gw = WordleGWindow()
+    
     # y = 0
     # for x in randomWord:
     #     gw.set_square_letter(N_ROWS-6, y ,randomWord[y])

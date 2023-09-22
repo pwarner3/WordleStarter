@@ -58,6 +58,61 @@ BOARD_HEIGHT = N_ROWS * SQUARE_SIZE + (N_ROWS - 1) * SQUARE_SEP
 MESSAGE_X = CANVAS_WIDTH / 2
 MESSAGE_Y = TOP_MARGIN + BOARD_HEIGHT + MESSAGE_SEP
 
+class GameEndWindow:
+    def __init__(self, numRows):        
+
+        def create_message():
+            return WordleMessage(self._canvas,
+                                 CANVAS_WIDTH / 2,
+                                 MESSAGE_Y)    
+
+        def delete_window():
+            """Closes the window and exits from the event loop."""
+            root.destroy()
+
+        def start_event_loop():
+            """Starts the tkinter event loop when the program exits."""
+            root.mainloop()
+
+        root = tkinter.Tk()
+        root.title("Wordle")
+        root.protocol("WM_DELETE_WINDOW", delete_window)
+        self._root = root
+        canvas = tkinter.Canvas(root,
+                                bg="White",
+                                width=CANVAS_WIDTH,
+                                height=CANVAS_HEIGHT,
+                                highlightthickness=0)
+        canvas.pack()
+        # Create a Hard Mode Button
+        self._canvas = canvas
+        self._message = create_message()
+        self.numRows = numRows
+        self._enter_listeners = [ ]
+
+        self._row = 0
+        self._col = 0
+        self._hard_mode = False
+        atexit.register(start_event_loop)
+
+        def create_grid(numRows):
+            return [
+                [EndWordleSquare(canvas, i, j) for j in range(5)]  # Create one column of squares
+                for i in range(numRows)
+            ]
+
+        self._grid = create_grid(numRows)
+
+    def add_enter_listener(self, fn):
+        self._enter_listeners.append(fn)
+
+    def show_message(self, msg, color="Black"):
+        self._message.set_text(msg, color)
+    
+    def set_square_color(self, row, col, color):
+        self._grid[row][col].set_color(color)
+    
+
 class WordleGWindow:
     """This class creates the Wordle window."""
 
@@ -67,8 +122,8 @@ class WordleGWindow:
         def create_grid():
             return [
                 [
-                    WordleSquare(canvas, i, j) for j in range(N_COLS)
-                ] for i in range(N_ROWS)
+                WordleSquare(canvas, i, j) for j in range(N_COLS)
+                  ]  for i in range(N_ROWS)
             ]
 
         def create_keyboard():
@@ -148,6 +203,8 @@ class WordleGWindow:
                             cursor="hand2", width=20,
                             command = disable_hard_mode).place(x=5, y=5)
             self._message.set_text("Hard Mode Enabled","Red")
+
+        #def game_ender():
 
         def disable_hard_mode():
             self._hard_mode = False
@@ -231,7 +288,31 @@ class WordleGWindow:
     def hard_mode_status(self):
         return self._hard_mode
 
+class EndWordleSquare:
 
+    def __init__(self, canvas, row, col):
+        x0 = (CANVAS_WIDTH - BOARD_WIDTH) / 2 + col * SQUARE_DELTA
+        y0 = TOP_MARGIN + row * SQUARE_DELTA
+        x1 = x0 + SQUARE_SIZE
+        y1 = y0 + SQUARE_SIZE
+        self._canvas = canvas
+        self._ch = " "
+        self._color = UNKNOWN_COLOR;
+        self._frame = canvas.create_rectangle(x0, y0, x1, y1)
+        self._text = canvas.create_text(x0 + SQUARE_SIZE / 2,
+                                        y0 + SQUARE_SIZE / 2,
+                                        text=self._ch,
+                                        font=SQUARE_FONT)
+        
+    def set_color(self, color):
+        color = color.upper()
+        self._color = color
+        fg = "White"
+        if color == UNKNOWN_COLOR:
+            fg = "Black"
+        self._canvas.itemconfig(self._frame, fill=color)
+        self._canvas.itemconfig(self._text, fill=fg)
+        
 class WordleSquare:
 
     def __init__(self, canvas, row, col):
