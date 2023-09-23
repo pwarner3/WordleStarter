@@ -9,6 +9,7 @@ import atexit
 import math
 import time
 import tkinter
+from PIL import ImageTk, Image
 
 # Constants
 
@@ -22,13 +23,13 @@ UNKNOWN_COLOR = "#FFFFFF"       # Undetermined letters are white
 KEY_COLOR = "#DDDDDD"           # Keys are colored light gray
 
 CANVAS_WIDTH = 500		# Width of the tkinter canvas (pixels)
-CANVAS_HEIGHT = 750		# Height of the tkinter canvas (pixels)
+CANVAS_HEIGHT = 800		# Height of the tkinter canvas (pixels)
 
 SQUARE_SIZE = 60		# Size of each square (pixels)
 SQUARE_SEP = 5                  # Separation between squares (pixels)
-TOP_MARGIN = 50    		# Top margin (pixels)
+TOP_MARGIN = 100    		# Top margin (pixels)
 BOTTOM_MARGIN = 30    		# Bottom margin (pixels)
-MESSAGE_SEP = 20                # Space between board and message center
+MESSAGE_SEP = 40                # Space between board and message center
 
 SQUARE_FONT = ("Helvetica Neue", -44, "bold")
 MESSAGE_FONT = ("Helvetica Neue", -20, "bold")
@@ -201,7 +202,7 @@ class WordleGWindow:
             self._btn = tkinter.Button(root, text = 'Disable Hard Mode', bd = '30',
                             background="Red", activebackground="LightGray", activeforeground="White", border=0, font=KEY_FONT,
                             cursor="hand2", width=20,
-                            command = disable_hard_mode).place(x=5, y=5)
+                            command = disable_hard_mode).place(x=5, y=TOP_MARGIN/3)
             self._message.set_text("Hard Mode Enabled","Red")
 
         #def game_ender():
@@ -211,7 +212,7 @@ class WordleGWindow:
             self._btn = tkinter.Button(root, text = 'Enable Hard Mode', bd = '30',
                             background="LightGray", activebackground="Red", activeforeground="White", border=0, font=KEY_FONT,
                             cursor="hand2", width=20,
-                            command = enable_hard_mode).place(x=5, y=5)
+                            command = enable_hard_mode).place(x=5, y=TOP_MARGIN/3)
             self._message.set_text("")
         def delete_window():
             """Closes the window and exits from the event loop."""
@@ -236,9 +237,15 @@ class WordleGWindow:
                             background="LightGray", activebackground="Red", activeforeground="White", border=0, font=KEY_FONT,
                             cursor="hand2", width=20,
                             command = enable_hard_mode)
-        btn.place(x=5, y=5)
+        btn.place(x=5, y=TOP_MARGIN/3)
+        # Create an image and panel
+        self._img = ImageTk.PhotoImage(Image.open("wordle_img.jpg").resize(size=(200,100)))
+        panel = tkinter.Label(root, image=self._img, width=200, height=80)
+        panel.place(x=290, y=5)
+
         self._canvas = canvas
         self._btn = btn
+        self._panel = panel
         self._grid = create_grid()
         self._message = create_message()
         self._keys = create_keyboard()
