@@ -67,7 +67,7 @@ def wordle():
                 global lw
                 lw = GameEndWindow(numTries) 
 
-                lw.show_message("Sorry, You Lost. It took you " + str(numTries) + " attempt(s)!\n \nShare your results with friends!!!")
+                lw.show_message(f"\n\n\n\nSorry, You Lost.\nThe Word was {randomWord} \n\nIt took you {numTries} attempt(s)!\n \nShare your results with friends!")
                 
                 for x in range(0, numTries):
                     for y in range(N_COLS):
@@ -123,7 +123,7 @@ def wordle():
                 global lhw
                 lhw = GameEndWindow(numTries) 
 
-                lhw.show_message("Sorry, You Lost. It took you " + str(numTries) + " attempt(s)!\n \nShare your results with friends!!!")
+                lhw.show_message(f"\n\n\n\nSorry, You Lost.\nThe Word was {randomWord} \n\nIt took you {numTries} attempt(s)!\n \nShare your results with friends!")
                 
                 for x in range(0, numTries):
                     for y in range(N_COLS):
