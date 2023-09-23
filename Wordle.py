@@ -38,10 +38,13 @@ def wordle():
                 
                     if currentLetter == randomWord[x]:
                         gw.set_square_color(gw.get_current_row(), x,CORRECT_COLOR)
+                        gw.set_key_color(currentLetter,CORRECT_COLOR)
                     elif currentLetter in randomWord:
                         gw.set_square_color(gw.get_current_row(), x, PRESENT_COLOR)
+                        gw.set_key_color(currentLetter,PRESENT_COLOR)
                     else: 
                         gw.set_square_color(gw.get_current_row(), x, MISSING_COLOR)
+                        gw.set_key_color(currentLetter,MISSING_COLOR)
 
             else:
                 gw.show_message("Not a word, try again")
@@ -75,7 +78,10 @@ def wordle():
                         lw.set_square_color(x, y, color)
                 return
             gw.set_current_row(temp)
-            
+
+
+
+
         else: # Hard Mode
             rowDecrement = 0
             word = ""
@@ -95,10 +101,13 @@ def wordle():
                     if currentLetter == randomWord[x]:
                         hardWord[x] = currentLetter
                         gw.set_square_color(gw.get_current_row(), x,CORRECT_COLOR)
+                        gw.set_key_color(currentLetter,CORRECT_COLOR)
                     elif currentLetter in randomWord:
                         gw.set_square_color(gw.get_current_row(), x, PRESENT_COLOR)
+                        gw.set_key_color(currentLetter,PRESENT_COLOR)
                     else: 
-                        gw.set_square_color(gw.get_current_row(), x, MISSING_COLOR)               
+                        gw.set_square_color(gw.get_current_row(), x, MISSING_COLOR)  
+                        gw.set_key_color(currentLetter,MISSING_COLOR)             
 
             else:
                 gw.show_message("Not a word, try again")
@@ -144,7 +153,8 @@ def wordle():
 
     gw = WordleGWindow()
 
-    gw.show_message(f"Word is: {randomWord}")
+    # For development only
+    # gw.show_message(f"Word is: {randomWord}")
 
     gw.add_enter_listener(enter_action)
 
