@@ -11,6 +11,7 @@ import time
 import tkinter
 from PIL import ImageTk, Image
 
+
 # Constants
 
 N_ROWS = 6			# Number of rows
@@ -104,6 +105,23 @@ class GameEndWindow:
 
         self._grid = create_grid(numRows)
 
+        def play_again():
+            restart()
+            self._btn = tkinter.Button(root, text = 'Play Again', bd = '30', background="Red", activebackground="LightGray", border=0, font=KEY_FONT, cursor="hand2", width=20, command = restart).place(x=5, y=TOP_MARGIN/3)
+            delete_window()
+
+        def restart():
+            from Wordle import wordle
+            wordle()
+            
+        
+
+        btn = tkinter.Button(root, text = 'Play Again', bd = '30',
+                            background="green", fg="white", border=0, font=KEY_FONT,
+                            cursor="hand2", width=16, height=2,
+                            command = play_again)
+        btn.place(x=CANVAS_WIDTH/3, y=TOP_MARGIN/3)
+
     def add_enter_listener(self, fn):
         self._enter_listeners.append(fn)
 
@@ -112,6 +130,9 @@ class GameEndWindow:
     
     def set_square_color(self, row, col, color):
         self._grid[row][col].set_color(color)
+
+    
+    
     
 
 class WordleGWindow:

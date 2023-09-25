@@ -57,12 +57,17 @@ def wordle():
                 pw = GameEndWindow(numTries) 
 
                 pw.show_message("Congrats! It took you " + str(numTries) + " attempt(s)!\n \nScreenshot to share with friends")
+            
                 
                 for x in range(0, numTries):
                     for y in range(N_COLS):
                         color = gw.get_square_color(x, y)
                         pw.set_square_color(x, y, color)
                 return
+
+                
+
+                
             
             temp = gw.get_current_row() + 1 - rowDecrement
             if temp == N_ROWS: # Lose Condition
